@@ -1,0 +1,127 @@
+*haskell.vim* Compiler files and auxiliary functions for Hugs98 and GHCi
+
+               Helpfile for *hugs.vim* and *ghci.vim* 
+                  Claus Reinke, c.reinke@ukc.ac.uk
+                 15/03/2002 last changed 24/07/2002
+
+                 |haskell-Intro| |haskell-Overview|
+
+===================================- Intro        *haskell-Intro*
+
+If you edit Haskell files, and have Hugs98 (or GHCi-5.04) installed,
+they can provide a lot of useful functionality. This little hack
+makes some of that functionality available from within Vim (GVim
+recommended). Put hugs.vim (ghci.vim) in a |compiler| directory in
+Vim's |runtimepath| and make sure to execute
+
+  :compiler hugs
+
+or (coming soon..)
+
+  :compiler ghci
+
+whenever you open a Haskell module - as an |autocommand| in your
+.vimrc, or as part of your |filetype| plugin for haskell and
+lhaskell (these filetypes are used by the Haskell syntax
+highlighting for .hs and .lhs files, respectively).
+
+hugs.vim (ghci.vim) sets |makeprg| and |errorformat| so that you can
+use Vim's |quickfix| mode with Hugs98 (GHCi). Note that I tend to
+find this particular aspect less helpful than running two separate
+windows for Vim and your interactive Haskell system, so I hardly
+ever use this feature.
+
+More interesting are the Vim script functions, key bindings, and
+menu entries, provided by hugs.vim (ghci.vim), most of which
+internally utilize Hugs98 (GHCi), making some of its helpful
+functionality and semantics-awareness available to your Vim editing
+session. These VimL functions are bound to menu entries and keyboard
+mappings for easy access, so usually, you won't call the functions
+directly.
+
+For this to work, Vim has to be able to find your hugs (ghci)
+executable. The plugin currently tries:
+
+  hugs (ghci)                   , if in $PATH (Unix) or %PATH%
+  c:\Program\ Files\Hugs98\hugs , if executable
+  c:\Programme\Hugs98\hugs      , if executable
+
+It will also try to find Hugs libraries, currently in
+
+  /usr/local/share/hugs/lib/**
+  c:\Program\ Files\Hugs98\hugs\lib\**
+  c:\Programme\Hugs98\hugs\lib\**
+
+If all that guessing doesn't work, you'll have to change the
+variables |makeprg|, g:haskell_path, and |path| in hugs.vim
+(ghci.vim) to point to the directories with your hugs (ghci)
+executable and libraries.
+
+If you're using gvim (vim -g), you'll find all of the functionality
+available via the new menu "Haskell", and if you choose, the new
+menu "Declarations", so the rest of this file is mostly to get
+non-GUI Vim users started, but you might want to skim the overview.
+
+Some of the ideas (such as a menu for declarations, or optional
+automatic type info) are inherited from the emacs modes for Haskell.
+
+Notes:
+
+- All of this is experimental, so it is recommended that you try it
+  on small, backed-up files before letting it use on your production
+  code. And if it doesn't do what you (and I) expect, let me know!
+
+- neither hugs nor ghci give us any help if the current file is not
+  a valid Haskell module!
+
+- this hack does not respect nested scopes! all commands will refer
+  to top-level bindings, as seen by your haskell interpreter.
+
+===================================- Overview       *haskell-Overview*
+
+With the cursor on the module name in an import line, you can
+type gf to go to that module (CTRL-^ takes you back). Keyword
+completion in insert mode (i_CTRL-N) suggests matches from the
+current file *and* from imported modules.
+
+The new menu "Haskell(Hugs98)" permits you to
+
+  - add explicit import declarations to an "import <module>" line
+    [key mapping: _i]
+
+  - add a default module header (module name is file name with
+    capitalised first letter) with explicit export declarations
+    [key mapping: _e]
+
+  - add type declarations for top-level functions
+    [key mapping: {Visual}_t]
+
+
+  - browse the current module's top-level declarations in a
+    split window
+    [key mapping: _B]
+
+  - browse an imported module's top-level declarations in a
+    split window
+    [key mapping: _I]
+
+
+  - show the type of the keyword under the cursor
+    [key mapping: {Visual}_T]
+
+  - show the info for the keyword under the cursor
+
+
+  - find the source for the declaration of the keyword 
+    under the cursor
+    [key mapping: {Visual}_f]
+
+
+  - add a menu with entries for all top-level declarations
+    in the current module (selecting an entry takes you there)
+
+  - toggle automatic display of the type of the keyword under
+    the cursor (calls the haskell interpreter frequently, so this
+    can be irritating, especially on slow machines 
+    -> turned off by default)
+

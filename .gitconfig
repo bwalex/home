@@ -1,0 +1,10 @@
+[user]
+	name = "Alex Hornung"
+	email = "ahornung@gmail.com"
+[color]
+	diff = auto
+[alias]
+	co = checkout
+	ci = commit
+
+

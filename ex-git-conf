@@ -1,0 +1,28 @@
+[core]
+#	whitespace = -trailing-space, -space-before-tab
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+
+[remote "origin"]
+	url = git://chlamydia.fs.ei.tum.de/dragonfly.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "leaf"]
+	url = ssh://alexh@leaf.dragonflybsd.org/~/git/dragonfly.git
+	fetch = +refs/heads/*:refs/remotes/leaf/*
+[remote "leaf-home"]
+	url = ssh://alexh@leaf.dragonflybsd.org/~/git/home/.git
+	fetch = +refs/heads/*:refs/remotes/leaf-home/*
+[remote "crater"]
+	url = ssh://alexh@crater.dragonflybsd.org/repository/git/dragonfly.git
+	fetch = +refs/heads/*:refs/remotes/crater/*
+
+[branch "master"]
+	remote = crater
+	merge = refs/heads/master
+[user]
+	name = Alex Hornung
+	email = ahornung@gmail.com
+[commit]
+	template = /usr/src/tools/gittemplate
