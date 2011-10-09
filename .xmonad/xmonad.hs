@@ -12,6 +12,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.RestoreMinimized
+import XMonad.Hooks.SetWMName
 
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig
@@ -72,12 +73,18 @@ main = xmonad $ ewmh defaultConfig
 
 		myStartupHook :: X ()
 		myStartupHook = do
-			spawn "avant-window-navigator"
+			----spawn "avant-window-navigator"
+			spawn "xfce4-panel --disable-wm-check"
+			spawn "gnome-keyring-daemon --start"
+			----spawn "/usr/libexec/gnome-settings-daemon"
 			spawn "gnome-power-manager"
 			spawn "nm-applet"
+			--spawn "gnome-session"
 
 		myLogHook :: X ()
-		myLogHook = ewmhDesktopsLogHook
+		myLogHook = do
+			setWMName "LG3D"
+		--myLogHook = ewmhDesktopsLogHook
 
 		myManageHook = composeAll
 			[ className =? "MPlayer"		--> doFloat
