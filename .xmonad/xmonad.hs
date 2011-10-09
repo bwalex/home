@@ -25,7 +25,7 @@ import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Minimize
 import XMonad.Layout.ShowWName
 
-import qualified XMonad.StackSet as W 
+import qualified XMonad.StackSet as W
 
 import Data.Bits ((.|.))
 import qualified Data.Map as M
@@ -42,12 +42,11 @@ main = xmonad $ ewmh defaultConfig
 	, startupHook	= myStartupHook
 	, manageHook	= myManageHook <+> manageDocks <+> manageHook desktopConfig
 	, logHook	= myLogHook
-	, layoutHook	= windowNavigation (minimize (hintedTile XMonad.Layout.HintedTile.Tall ||| hintedTile Wide ||| Grid) ||| Full)
+	, layoutHook	= avoidStruts $ windowNavigation (minimize (hintedTile XMonad.Layout.HintedTile.Tall ||| hintedTile Wide ||| Grid) ||| Full)
 		-- had XMonad.Tall 1 (3/100) (1/2)  -- but replaced with hintedTile
 		--
 		-- add avoidStruts $
 		-- at the beginning of layoutHook for panel persistence
-		-- no good with avant-window-navigator, but required for
 		-- fbpanel, lxpanel, xfce4-panel, etc
 	, handleEventHook = myHandleEventHook
 	}
