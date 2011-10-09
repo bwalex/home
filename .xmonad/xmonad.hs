@@ -25,6 +25,8 @@ import XMonad.Layout.Combo
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Minimize
 import XMonad.Layout.ShowWName
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.MouseResizableTile
 
 import qualified XMonad.StackSet as W
 
@@ -35,6 +37,22 @@ import System.Exit
 import System.IO
 
 -- main = xmonad gnomeConfig
+-- dynamicLog theme (suppress everything but layout)
+myPP = defaultPP
+    { ppLayout = (\ x -> case x of
+      "Hinted ResizableTall" -> "[|]"
+      "Mirror Hinted ResizableTall" -> "[-]"
+      "Hinted Tabbed Simplest" -> "[T]"
+      "Full" -> "[ ]"
+      _ -> x )
+    , ppCurrent = const ""
+    , ppVisible = const ""
+    , ppHidden = const ""
+    , ppHiddenNoWindows = const ""
+    , ppUrgent = const ""
+    , ppTitle = const ""
+    , ppWsSep = ""
+    , ppSep = "" }
 
 main = xmonad $ ewmh defaultConfig
 	{ modMask	= mod4Mask -- Use Super instead of Alt
@@ -43,8 +61,10 @@ main = xmonad $ ewmh defaultConfig
 	, startupHook	= myStartupHook
 	, manageHook	= myManageHook <+> manageDocks <+> manageHook desktopConfig
 	, logHook	= myLogHook
-	, layoutHook	= avoidStruts $ windowNavigation (minimize (hintedTile XMonad.Layout.HintedTile.Tall ||| hintedTile Wide ||| Grid ||| MosaicAlt M.empty) ||| Full)
+	, layoutHook	= avoidStruts $ windowNavigation (minimize (mouseResizableTileMirrored ||| mouseResizableTile ||| ResizableTall 1 (3/100) (1/2) [] ||| Mirror (ResizableTall 1 (3/100) (1/2) []) ||| Grid ||| MosaicAlt M.empty) ||| Full)
 		-- had XMonad.Tall 1 (3/100) (1/2)  -- but replaced with hintedTile
+		--
+		-- had: hintedTile XMonad.Layout.HintedTile.Tall ||| hintedTile Wide
 		--
 		-- add avoidStruts $
 		-- at the beginning of layoutHook for panel persistence
@@ -58,12 +78,15 @@ main = xmonad $ ewmh defaultConfig
 	, ((mod4Mask, xK_Down			), sendMessage $ Swap D)
 	, ((mod4Mask, xK_Left			), sendMessage $ Swap L)
 	, ((mod4Mask, xK_Right			), sendMessage $ Swap R)
-	, ((mod4Mask, xK_a			), withFocused (sendMessage . expandWindowAlt))
-	, ((mod4Mask, xK_z			), withFocused (sendMessage . shrinkWindowAlt))
+	, ((mod4Mask, xK_u			), sendMessage ExpandSlave)
+	, ((mod4Mask, xK_i			), sendMessage ShrinkSlave)
+	, ((mod4Mask, xK_a			), sendMessage MirrorExpand >> sendMessage ExpandSlave >> withFocused (sendMessage . expandWindowAlt))
+	, ((mod4Mask, xK_z			), sendMessage MirrorShrink >> sendMessage ShrinkSlave >> withFocused (sendMessage . shrinkWindowAlt))
 	, ((mod4Mask, xK_s			), withFocused (sendMessage . tallWindowAlt))
 	, ((mod4Mask, xK_d			), withFocused (sendMessage . wideWindowAlt))
 	, ((mod4Mask .|. shiftMask, xK_a	), sendMessage resetAlt)
 	, ((mod4Mask .|. shiftMask, xK_z	), sendMessage resetAlt)
+	, ((mod4Mask, xK_space			), sendMessage NextLayout >> (dynamicLogString myPP >>= \d->spawn $"killall -9 osd_cat ; echo "++d++" | osd_cat -d 2 -l 2 -p top -c blue -f \"-*-Lucida-bold-r-*-*-34-*-*-*-*-*-*-*\""))
 	]
 	`additionalKeysP`
 	[ ("<XF86AudioRaiseVolume>"		 , spawn "amixer set Master 5%+ unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
