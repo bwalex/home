@@ -112,6 +112,7 @@ main = xmonad $ ewmh defaultConfig
 
 		myStartupHook :: X ()
 		myStartupHook = do
+			spawn "xscreensaver"
 			----spawn "avant-window-navigator"
 			spawn "xfce4-panel --disable-wm-check"
 			spawn "gnome-keyring-daemon --start"
