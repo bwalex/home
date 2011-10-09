@@ -95,6 +95,8 @@ main = xmonad $ ewmh defaultConfig
 	, ((mod4Mask .|. shiftMask, xK_a	), sendMessage resetAlt)
 	, ((mod4Mask .|. shiftMask, xK_z	), sendMessage resetAlt)
 	, ((mod4Mask, xK_space			), sendMessage NextLayout >> (dynamicLogString myPP >>= \d->spawn $"killall -9 osd_cat ; echo "++d++" | osd_cat -d 2 -l 2 -p top -c blue -f \"-*-Lucida-bold-r-*-*-34-*-*-*-*-*-*-*\""))
+	, ((mod4Mask, xK_0			), windows $ W.greedyView "10")
+	, ((mod4Mask .|. shiftMask, xK_0	), windows $ W.shift      "10")
 	]
 	`additionalKeysP`
 	[ ("<XF86AudioRaiseVolume>"		 , spawn "amixer set Master 5%+ unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
@@ -126,6 +128,7 @@ main = xmonad $ ewmh defaultConfig
 		myManageHook = composeAll
 			[ className =? "MPlayer"		--> doFloat
 			, className =? "VLC media player"	--> doFloat
+			, isFullscreen				--> doFullFloat
 			, manageDocks
 			]
 
