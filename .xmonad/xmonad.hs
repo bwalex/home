@@ -40,10 +40,18 @@ import System.IO
 -- dynamicLog theme (suppress everything but layout)
 myPP = defaultPP
     { ppLayout = (\ x -> case x of
-      "Hinted ResizableTall" -> "[|]"
-      "Mirror Hinted ResizableTall" -> "[-]"
-      "Hinted Tabbed Simplest" -> "[T]"
-      "Full" -> "[ ]"
+--      "Minimize MouseResizableTile" 	-> "[ ^ ]"
+--      "Minimize ResizableTall"		-> "[ \\| ]"
+--      "Minimize Mirror ResizableTall"	-> "[ - ]"
+--      "Minimize Grid"			-> "[ + ]"
+--      "Minimize MosaicAlt"		-> "[Mosaic]"
+--      "Full"				-> "[   ]"
+      "Minimize MouseResizableTile" 	-> "Mouse Resizable"
+      "Minimize ResizableTall"		-> "Tall"
+      "Minimize Mirror ResizableTall"	-> "Wide"
+      "Minimize Grid"			-> "Grid"
+      "Minimize MosaicAlt"		-> "Mosaic"
+      "Full"				-> "Full"
       _ -> x )
     , ppCurrent = const ""
     , ppVisible = const ""
