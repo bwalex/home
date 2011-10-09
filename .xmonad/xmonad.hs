@@ -59,8 +59,8 @@ main = xmonad $ ewmh defaultConfig
 	, ((mod4Mask, xK_Right			), sendMessage $ Swap R)
 	]
 	`additionalKeysP`
-	[ ("<XF86AudioRaiseVolume>"		 , spawn "amixer set Master 5%+ unmute")
-	, ("<XF86AudioLowerVolume>"		 , spawn "amixer set Master 5%- unmute")
+	[ ("<XF86AudioRaiseVolume>"		 , spawn "amixer set Master 5%+ unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
+	, ("<XF86AudioLowerVolume>"		 , spawn "amixer set Master 5%- unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
 	, ("<XF86AudioMute>"			 , spawn "amixer set Master toggle")
 	, ("<Print>"				 , spawn "shutter")
 	]
