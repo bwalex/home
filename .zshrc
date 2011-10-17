@@ -241,4 +241,6 @@ if [[ -r ~/.zshrc.local ]]; then
 	source ~/.zshrc.local
 fi
 
+source ~/.profile
+
 cd .

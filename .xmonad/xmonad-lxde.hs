@@ -62,15 +62,13 @@ myPP = defaultPP
     , ppWsSep = ""
     , ppSep = "" }
 
-main = do
-    xmproc <- spawnPipe "/home/alex/.cabal/bin/xmobar"
-    xmonad $ ewmh defaultConfig
+main = xmonad $ ewmh defaultConfig
 	{ modMask	= mod4Mask -- Use Super instead of Alt
 	, terminal	= "konsole"
 	, workspaces	= map show [1 .. 10 :: Int]
 	, startupHook	= myStartupHook
 	, manageHook	= myManageHook <+> manageDocks <+> manageHook desktopConfig
-	, logHook	= myLogHook xmproc
+	, logHook	= myLogHook
 	, layoutHook	= avoidStruts $ windowNavigation (minimize (mouseResizableTileMirrored ||| mouseResizableTile ||| ResizableTall 1 (3/100) (1/2) [] ||| Mirror (ResizableTall 1 (3/100) (1/2) []) ||| Grid ||| MosaicAlt M.empty) ||| Full)
 		-- had XMonad.Tall 1 (3/100) (1/2)  -- but replaced with hintedTile
 		--
@@ -100,12 +98,12 @@ main = do
 	, ((mod4Mask, xK_0			), windows $ W.greedyView "10")
 	, ((mod4Mask .|. shiftMask, xK_0	), windows $ W.shift      "10")
 	]
-	--`additionalKeysP`
-	--[ ("<XF86AudioRaiseVolume>"		 , spawn "amixer set Master 5%+ unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
-	--, ("<XF86AudioLowerVolume>"		 , spawn "amixer set Master 5%- unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
-	--, ("<XF86AudioMute>"			 , spawn "amixer set Master toggle")
-	--, ("<Print>"				 , spawn "shutter")
-	--]
+--	`additionalKeysP`
+--	[ ("<XF86AudioRaiseVolume>"		 , spawn "amixer set Master 5%+ unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
+--	, ("<XF86AudioLowerVolume>"		 , spawn "amixer set Master 5%- unmute ; killall osd_cat &> /dev/null ; osd_cat -d 2 -l 2 -p bottom -c green -T \"Volume (Master)\" -b percentage -P `amixer get Master | grep 'Front Left:' | cut -d \" \" -f 7 | sed 's/[^0-9]//g'`")
+--	, ("<XF86AudioMute>"			 , spawn "amixer set Master toggle")
+--	, ("<Print>"				 , spawn "shutter")
+--	]
 	where
 		hintedTile = HintedTile nmaster delta ratio TopLeft
 		nmaster	= 1
@@ -114,21 +112,18 @@ main = do
 
 		myStartupHook :: X ()
 		myStartupHook = do
-			spawn "xscreensaver"
+			--spawn "xscreensaver"
 			----spawn "avant-window-navigator"
-			--spawn "xfce4-panel --disable-wm-check"
+			spawn "lxsession"
 			--spawn "gnome-keyring-daemon --start"
 			----spawn "/usr/libexec/gnome-settings-daemon"
 			--spawn "gnome-power-manager"
 			--spawn "nm-applet"
 			--spawn "gnome-session"
 
-		myLogHook xmproc = do
+		myLogHook :: X ()
+		myLogHook = do
 			setWMName "LG3D"
-			dynamicLogWithPP $ xmobarPP
-                        	{ ppOutput = hPutStrLn xmproc
-                        	, ppTitle = xmobarColor "green" "" . shorten 50
-                        	}
 		--myLogHook = ewmhDesktopsLogHook
 
 		myManageHook = composeAll
