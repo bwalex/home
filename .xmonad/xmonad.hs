@@ -96,7 +96,7 @@ main = do
 	, ((mod4Mask, xK_d			), withFocused (sendMessage . wideWindowAlt))
 	, ((mod4Mask .|. shiftMask, xK_a	), sendMessage resetAlt)
 	, ((mod4Mask .|. shiftMask, xK_z	), sendMessage resetAlt)
-	, ((mod4Mask, xK_space			), sendMessage NextLayout >> (dynamicLogString myPP >>= \d->spawn $"killall -9 osd_cat ; echo "++d++" | osd_cat -d 2 -l 2 -p top -c blue -f \"-*-Lucida-bold-r-*-*-34-*-*-*-*-*-*-*\""))
+	--, ((mod4Mask, xK_space			), sendMessage NextLayout >> (dynamicLogString myPP >>= \d->spawn $"killall -9 osd_cat ; echo "++d++" | osd_cat -d 2 -l 2 -p top -c blue -f \"-*-Lucida-bold-r-*-*-34-*-*-*-*-*-*-*\""))
 	, ((mod4Mask, xK_0			), windows $ W.greedyView "10")
 	, ((mod4Mask .|. shiftMask, xK_0	), windows $ W.shift      "10")
 	]
@@ -127,9 +127,25 @@ main = do
 			setWMName "LG3D"
 			dynamicLogWithPP $ xmobarPP
                         	{ ppOutput = hPutStrLn xmproc
-                        	, ppTitle = xmobarColor "green" "" . shorten 50
+                        	, ppTitle = xmobarColor "#6ab5ff" "" . shorten 75
+				--, ppTitle = xmobarColor "#ffff80" "" . shorten 75
+				, ppSep = " | "
+				, ppCurrent = xmobarColor "white" "" . id
+				, ppLayout = (\ x -> case x of
+				--	"Minimize MouseResizableTile"   -> "[ ^ ]"
+				--	"Minimize ResizableTall"                -> "[ \\| ]"
+				--	"Minimize Mirror ResizableTall" -> "[ - ]"
+				--	"Minimize Grid"                 -> "[ + ]"
+				--	"Minimize MosaicAlt"            -> "[Mosaic]"
+				--	"Full"                          -> "[   ]"
+					"Minimize MouseResizableTile"     -> "Mouse Resizable"
+					"Minimize ResizableTall"          -> "Tall"
+					"Minimize Mirror ResizableTall"   -> "Wide"
+					"Minimize Grid"                   -> "Grid"
+					"Minimize MosaicAlt"              -> "Mosaic"
+					"Full"                            -> "Full"
+					_ -> x )
                         	}
-		--myLogHook = ewmhDesktopsLogHook
 
 		myManageHook = composeAll
 			[ className =? "MPlayer"		--> doFloat
