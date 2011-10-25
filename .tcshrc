@@ -1,0 +1,30 @@
+
+## Set C shell variables
+# Remember my 4000 most recent events
+set history=6000
+
+# Save the most recent 4000 events when I log out
+set savehist=6000
+
+# Don't let me log out by pressing <ctrl-d>
+set ignoreeof
+
+# List matches when autocompleting
+set autolist=true
+
+# Useful key bindings
+bindkey -k up history-search-backward
+bindkey -k down history-search-forward
+
+# Set up Cadence foo
+#source /home/esdcad/scripts/esd_tcshrc
+#source /home/esdcad/scripts/cadence_linux_ic5141
+#source /home/esdcad/scripts/ams_v370
+#source /home/esdcad/scripts/license
+
+set ellipsis
+
+set time=(1 "%E=%U+%S")
+
+# Load prompt file, but save $? first - it gets overridden
+alias precmd 'set questionmark = $? ; source ~/.tcshrc_f1'

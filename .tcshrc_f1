@@ -1,0 +1,13 @@
+if ( $questionmark ) then
+  set PREXIT="%B%{\033[1;31m%}$questionmark%b "
+else
+  set PREXIT=""
+endif
+
+set prompt = "%B%{\033[34m%}%P %{\033[1;37m%}%m%b:%B%{\033[1;30m%}%~%b %{\033[33m%}[%j]"
+set prompt = "$prompt\n"
+
+set prompt = "$prompt$PREXIT"
+
+set prompt = "$prompt%b%{\033[0;32m%}%#%{\033[0m%} "
+
