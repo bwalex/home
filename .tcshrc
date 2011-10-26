@@ -89,5 +89,8 @@ bindkey '\e[3~' delete-char
 # Load prompt file, but save $? first - it gets overridden
 alias precmd 'set questionmark = $? ; source ~/.tcshrc_f1'
 
-#source ~/.profile
+# Magic to support bourne/zsh 'export', at least rudimentary
+alias export 'set'
+
+source ~/.profile
 
