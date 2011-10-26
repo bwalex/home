@@ -12,9 +12,27 @@ set ignoreeof
 # List matches when autocompleting
 set autolist=true
 
-# Useful key bindings
-bindkey -k up history-search-backward
-bindkey -k down history-search-forward
+# Use the history of commands to aid expansion.
+# Found in new versions of tcsh (at least 6.10)
+set autoexpand
+
+# Enabled "complete" to "enhance".
+# If you have a file called "complete.tcsh" and you
+# want to edit it, do "vi c.t<TAB>" and that's it.
+set complete=enhance
+
+# Possible values : cmd complete all
+# Put it to extreme auto.
+set correct=cmd
+
+# Don't want to be autologed out.
+# You can set it to autologout you after x minutes of idle time.
+# You would do: set autologout=3  for 3 minutes of inactivity.
+unset autologout
+
+# After a 'Ctrl-Z', it lists all the jobs.
+set listjobs
+
 
 # Set up Cadence foo
 #source /home/esdcad/scripts/esd_tcshrc
@@ -24,7 +42,52 @@ bindkey -k down history-search-forward
 
 set ellipsis
 
+# Don't beep at all...
+set nobeep
+
+set PAGER=less
+set BLOCKSIZE=K
+
+if ( -e `where less` ) then
+  alias more	'less'
+endif
+
+if ( -e `where vim`) then
+  alias vi	'vim'
+  EDITOR=`which vim`
+endif
+
+alias ff	'find . -name $*'
+
+# Prompt used when waiting for stufffor 'for' or 'while'...
+set prompt2="%R?"
+
+# Prompt used when correcting.
+# Correct????
+# 	y: yes, n: no, e: edit
+# 	<SPACE>: yes
+# 	<ENTER>: no
+set prompt3="CORRECT> %B%R%b (y|n|e)?"
+
 set time=(1 "%E=%U+%S")
+
+# Useful key bindings
+bindkey -k up history-search-backward
+bindkey -k down history-search-forward
+
+# other key bindings
+bindkey '\e[H' beginning-of-line
+bindkey '\e[F' end-of-line
+bindkey '\eOH' beginning-of-line
+bindkey '\eOF' end-of-line
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+bindkey '\e[1;5D' backward-word
+bindkey '\e[1;5C' forward-word
+bindkey '\e[3~' delete-char
 
 # Load prompt file, but save $? first - it gets overridden
 alias precmd 'set questionmark = $? ; source ~/.tcshrc_f1'
+
+#source ~/.profile
+
