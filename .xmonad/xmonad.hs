@@ -94,6 +94,7 @@ main = do
 	, ((mod4Mask, xK_z			), sendMessage MirrorShrink >> sendMessage ShrinkSlave >> withFocused (sendMessage . shrinkWindowAlt))
 	, ((mod4Mask, xK_s			), withFocused (sendMessage . tallWindowAlt))
 	, ((mod4Mask, xK_d			), withFocused (sendMessage . wideWindowAlt))
+	, ((mod4Mask, xK_f                      ), spawn "sh ~/.xmonad/windowswitch.sh")
 	, ((mod4Mask .|. shiftMask, xK_a	), sendMessage resetAlt)
 	, ((mod4Mask .|. shiftMask, xK_z	), sendMessage resetAlt)
 	--, ((mod4Mask, xK_space			), sendMessage NextLayout >> (dynamicLogString myPP >>= \d->spawn $"killall -9 osd_cat ; echo "++d++" | osd_cat -d 2 -l 2 -p top -c blue -f \"-*-Lucida-bold-r-*-*-34-*-*-*-*-*-*-*\""))
