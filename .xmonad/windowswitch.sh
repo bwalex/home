@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 target=$(sh ~/.xmonad/windowlist.sh | dmenu)
 
 if [ "$?" == "0" ]; then
-  wmctrl -a $target
+  wmctrl -i -a $target
 fi
