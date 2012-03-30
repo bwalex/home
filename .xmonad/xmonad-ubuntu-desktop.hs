@@ -28,6 +28,7 @@ import XMonad.Layout.ShowWName
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.MouseResizableTile
 import XMonad.Layout.IndependentScreens
+import XMonad.Layout.NoBorders
 
 import qualified XMonad.StackSet as W
 
@@ -65,7 +66,7 @@ myPP = defaultPP
 
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
-myKeys=	[ ((mod4Mask, xK_n        		), withFocused (\f -> sendMessage (MinimizeWin f)))
+myKeys=	[ ((mod4Mask, xK_n        		), withFocused minimizeWindow)
 	, ((mod4Mask .|. shiftMask, xK_n	), sendMessage RestoreNextMinimizedWin)
 	, ((mod4Mask, xK_Up			), sendMessage $ Swap U)
 	, ((mod4Mask, xK_Down			), sendMessage $ Swap D)
@@ -96,7 +97,7 @@ myKeysP =
 
 main = do
     xmproc  <- spawnPipe "~/dzen-main.sh"
-    xmproc2 <- spawnPipe "~/dzen-all.sh"
+--    xmproc2 <- spawnPipe "~/dzen-all.sh"
 
     xmonad $ ewmh defaultConfig
 	{ modMask	= mod4Mask -- Use Super instead of Alt
@@ -105,7 +106,7 @@ main = do
 	, startupHook	= myStartupHook
 	, manageHook	= myManageHook <+> manageDocks <+> manageHook desktopConfig
 	, logHook	= myLogHook xmproc
-	, layoutHook	= avoidStruts $ windowNavigation (minimize (mouseResizableTileMirrored ||| mouseResizableTile ||| ResizableTall 1 (3/100) (1/2) [] ||| Mirror (ResizableTall 1 (3/100) (1/2) []) ||| Grid ||| MosaicAlt M.empty) ||| Full)
+	, layoutHook	= avoidStruts $ smartBorders $ windowNavigation (minimize (mouseResizableTile ||| mouseResizableTileMirrored  ||| Grid ||| MosaicAlt M.empty) ||| Full)
 		-- had XMonad.Tall 1 (3/100) (1/2)  -- but replaced with hintedTile
 		--
 		-- had: hintedTile XMonad.Layout.HintedTile.Tall ||| hintedTile Wide
@@ -132,7 +133,7 @@ main = do
 
 		myStartupHook :: X ()
 		myStartupHook = do
-			spawn "xscreensaver"
+			spawn "xscreensaver -nosplash"
 			----spawn "avant-window-navigator"
 			--spawn "xfce4-panel --disable-wm-check"
 			--spawn "gnome-keyring-daemon --start"
@@ -145,7 +146,7 @@ main = do
 			setWMName "LG3D"
 			dynamicLogWithPP $ dzenPP
                         	{ ppOutput = hPutStrLn xmproc
-                        	, ppTitle = dzenColor "#6ab5ff" "" . shorten 75
+                        	, ppTitle = const ""
 				, ppSep = " | "
 				--, ppCurrent = dzenColor "white" "" . id
 				, ppLayout = (\ x -> case x of
@@ -167,6 +168,7 @@ main = do
 		myManageHook = composeAll
 			[ className =? "MPlayer"		--> doFloat
 			, className =? "VLC media player"	--> doFloat
+			, className =? "Orage"			--> doFloat
 			, isFullscreen				--> doFullFloat
 			, manageDocks
 			]

@@ -20,9 +20,9 @@ XPOS=$1
 # y position
 YPOS=0
 # title width
-TWIDTH=275
+TWIDTH=280
 # details area width
-DWIDTH=275
+DWIDTH=280
 
 # events & actions
 ACT='button1=togglecollapse;button3=exit'

@@ -1,1 +1,1 @@
-dzen2 -fn 'Terminus' -p -h 16 -w 1280 -ta 'l'
+dzen2 -fn 'Terminus' -p -h 30 -w 480 -ta 'l'
