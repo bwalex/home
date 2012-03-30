@@ -59,16 +59,52 @@
 
 (setq c-default-style "openbsd")
 
+
+
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (unless (require 'el-get nil t)
-  (with-current-buffer
-       (url-retrieve-synchronously
-        "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
-     (lambda (s)
-      (let (el-get-master-branch)
-       (end-of-buffer)
-       (eval-print-last-sexp))))))
+  (url-retrieve
+   "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
+   (lambda (s)
+     (let (el-get-master-branch)
+     (end-of-buffer)
+     (eval-print-last-sexp)))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;; So the idea is that you copy/paste this code into your *scratch* buffer,
+;; hit C-j, and you have a working developper edition of el-get.
+(url-retrieve
+ "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
+ (lambda (s)
+   (let (el-get-master-branch)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
+
+
+
+
+
+
+
+
+
+
 
 (let ((cedet-dir (expand-file-name "cedet" el-get-dir)))
   (add-to-list 'load-path (expand-file-name
