@@ -23,7 +23,14 @@
  '(js-expr-indent-offset 2)
  '(js-indent-level 2)
  '(js-paren-indent-offset 2)
- '(js-square-indent-offset 2))
+ '(js-square-indent-offset 2)
+ '(verilog-auto-delete-trailing-whitespace t)
+ '(verilog-auto-lineup (quote all))
+ '(verilog-indent-level 2)
+ '(verilog-indent-level-behavioral 2)
+ '(verilog-indent-level-declaration 2)
+ '(verilog-indent-level-directive 0)
+ '(verilog-indent-level-module 2))
 
 
 
@@ -135,7 +142,7 @@
 
 (setq my-packages
       (append
-	'(cssh el-get coffee-mode color-theme cheat switch-window vkill xcscope yasnippet popup auto-complete-ruby auto-complete-yasnippet auto-complete-clang ac-octave ac-dabbrev csv-mode dsvn gist git-emacs gnuplot-mode haml-mode highlight-parentheses jquery-doc json lua-mode magit magithub markdown-mode matlab-mode php-mode python-mode regex-tool ruby-mode ruby-block ruby-end scss-mode sudo-save sunrise-commander sunrise-x-buttons sunrise-x-tree yaml-mode undo-tree )
+	'(cssh el-get coffee-mode color-theme cheat switch-window vkill xcscope yasnippet popup auto-complete-ruby auto-complete-yasnippet auto-complete-clang ac-octave ac-dabbrev csv-mode dsvn gist git-emacs gnuplot-mode haml-mode highlight-parentheses jquery-doc json lua-mode magit magithub markdown-mode matlab-mode php-mode python-mode regex-tool ruby-mode ruby-block scss-mode sudo-save sunrise-commander sunrise-x-buttons sunrise-x-tree yaml-mode undo-tree )
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-packages)
@@ -147,6 +154,19 @@
 (color-theme-initialize)
 (load-file "~/.emacs.d/themes/color-theme-blackboard.el")
 (color-theme-blackboard)
+
+
+     (add-hook 'haml-mode-hook
+               (lambda ()
+                 (setq indent-tabs-mode nil)
+                 (define-key haml-mode-map "\C-m" 'newline-and-indent)))
+
+(defun my-verilog-hook ()
+    (setq indent-tabs-mode nil)
+    (setq tab-width 2))
+ (add-hook 'verilog-mode-hook 'my-verilog-hook)
+
+
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
