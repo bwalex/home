@@ -1,0 +1,9 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: always_ff
+# key: aff
+# --
+always_ff @(posedge clock, negedge reset_n)
+if (~reset_n)
+  $1;
+else
+  $2;

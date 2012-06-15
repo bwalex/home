@@ -1,0 +1,8 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: always_comb
+# key: ac
+# --
+always_comb
+begin
+  $1;
+end

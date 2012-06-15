@@ -1,0 +1,5 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: assert property
+# key: ass
+# --
+assert property ($1);

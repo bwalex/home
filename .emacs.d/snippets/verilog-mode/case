@@ -1,0 +1,8 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: case
+# key: case
+# --
+case ($1)
+  $2: begin
+  end
+endcase

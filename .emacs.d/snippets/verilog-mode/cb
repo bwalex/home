@@ -1,0 +1,9 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: clocking block
+# key: cb
+# --
+clocking cb @(posedge clock);
+  $1
+endclocking
+
+default clocking cb;

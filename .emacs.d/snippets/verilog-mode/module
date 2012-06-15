@@ -1,0 +1,10 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: module
+# key: mod
+# --
+module ${1:foo} \#(
+  )(
+    input clock;
+    input reset_n;
+  );
+endmodule

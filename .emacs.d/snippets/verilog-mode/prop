@@ -1,0 +1,7 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: property
+# key: prop
+# --
+property $1;
+  @(posedge clock) $2 |-> $3;
+endproperty
