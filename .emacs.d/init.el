@@ -49,6 +49,7 @@
 			    markdown-mode
 			    ;nxhtml
 			    ;pastebin
+			    paredit
 			    php-mode
 			    ;python-mode
 			    ;matlab-mode ;; fails to compile
